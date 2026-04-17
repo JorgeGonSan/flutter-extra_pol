@@ -1,23 +1,24 @@
-import 'package:flutter/cupertino.dart';
+import 'package:extra_pol/models/fila_patron_equipo.dart';
+import 'package:flutter/material.dart';
 
 class HomeViewModel extends ChangeNotifier {
-  TextEditingController patronP1Controller = TextEditingController();
-  TextEditingController patronP2Controller = TextEditingController();
-  TextEditingController patronP3Controller = TextEditingController();
-  TextEditingController equipoP1Controller = TextEditingController();
-  TextEditingController equipoP2Controller = TextEditingController();
-  TextEditingController equipoP3Controller = TextEditingController();
+  final List<FilaPatronEquipo> puntos = [
+    FilaPatronEquipo(
+      patron: TextEditingController(),
+      equipo: TextEditingController(),
+    ),
+    FilaPatronEquipo(
+      patron: TextEditingController(),
+      equipo: TextEditingController(),
+    ),
+  ];
 
-  //Limpiar memoria
   @override
   void dispose() {
-    patronP1Controller.dispose();
-    patronP2Controller.dispose();
-    patronP3Controller.dispose();
-    equipoP1Controller.dispose();
-    equipoP2Controller.dispose();
-    equipoP3Controller.dispose();
-
+    for (var punto in puntos) {
+      punto.patron.dispose();
+      punto.equipo.dispose();
+    }
     super.dispose();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:extra_pol/viewModels/home_view_model.dart';
+import 'package:extra_pol/widgets/my_field_group.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,7 +20,15 @@ class _homeScreenState extends State<HomeScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(children: [Row()]),
+        child: Column(
+          children: [
+            for (var punto in viewModel.puntos)
+              Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: MyFieldGroup(c1: punto.patron, c2: punto.equipo),
+              ),
+          ],
+        ),
       ),
     );
   }
