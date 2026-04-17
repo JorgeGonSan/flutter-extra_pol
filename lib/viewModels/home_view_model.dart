@@ -11,6 +11,10 @@ class HomeViewModel extends ChangeNotifier {
       patron: TextEditingController(),
       equipo: TextEditingController(),
     ),
+    FilaPatronEquipo(
+      patron: TextEditingController(),
+      equipo: TextEditingController(),
+    ),
   ];
 
   @override

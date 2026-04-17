@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class MyFieldGroup extends StatelessWidget {
   final String patron;
   final String equipo;
+  final String labelSuffix;
   final TextEditingController c1, c2;
   const MyFieldGroup({
     super.key,
@@ -11,6 +12,7 @@ class MyFieldGroup extends StatelessWidget {
     this.patron = "Patron",
     required this.c1,
     required this.c2,
+    required this.labelSuffix,
   });
 
   @override
@@ -18,11 +20,17 @@ class MyFieldGroup extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: MyTextField(myLabelText: patron, myController: c1),
+          child: MyTextField(
+            myLabelText: "$patron$labelSuffix",
+            myController: c1,
+          ),
         ),
         SizedBox(width: 30),
         Expanded(
-          child: MyTextField(myLabelText: equipo, myController: c2),
+          child: MyTextField(
+            myLabelText: "$equipo$labelSuffix",
+            myController: c2,
+          ),
         ),
       ],
     );

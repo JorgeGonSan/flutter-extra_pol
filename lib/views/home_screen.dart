@@ -22,10 +22,14 @@ class _homeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            for (var punto in viewModel.puntos)
+            for (int i = 0; i < viewModel.puntos.length; i++)
               Padding(
                 padding: const EdgeInsets.all(6.0),
-                child: MyFieldGroup(c1: punto.patron, c2: punto.equipo),
+                child: MyFieldGroup(
+                  c1: viewModel.puntos[i].patron,
+                  c2: viewModel.puntos[i].equipo,
+                  labelSuffix: " P${i + 1}",
+                ),
               ),
           ],
         ),
