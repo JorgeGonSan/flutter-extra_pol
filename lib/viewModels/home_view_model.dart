@@ -113,8 +113,26 @@ class HomeViewModel extends ChangeNotifier {
     super.dispose();
   }
 
-  // obtiene una lista con los puntos (x,y) ordenados
-  List<FlSpot> get puntosGrafica {
+  // obtiene una lista con los puntos (x,y) ordenados para el patron
+  List<FlSpot> get puntosGraficaPatron {
+    List<FlSpot> spots = [];
+
+    for (var punto in puntos) {
+      //Intentamos de pasar a double el texto del campo
+      double? x = double.tryParse(punto.patron.text);
+
+      //Si el punto es valido lo asignamos a la lista
+      if (x != null) {
+        spots.add(FlSpot(x, x));
+      }
+    }
+    // ordena la lista de menor a mayor
+    spots.sort((a, b) => a.x.compareTo(b.x));
+    return spots;
+  }
+
+  // obtiene una lista con los puntos (x,y) ordenados para el equipo
+  List<FlSpot> get puntosGraficaEquipos {
     List<FlSpot> spots = [];
 
     for (var punto in puntos) {

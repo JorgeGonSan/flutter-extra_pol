@@ -1,4 +1,5 @@
 import 'package:extra_pol/viewModels/home_view_model.dart';
+import 'package:extra_pol/widgets/my_chart.dart';
 import 'package:extra_pol/widgets/my_field_group.dart';
 import 'package:flutter/material.dart';
 
@@ -42,6 +43,20 @@ class _homeScreenState extends State<HomeScreen> {
                         labelSuffix: " P${i + 1}",
                         isManual: viewModel.puntos[i].esManual,
                         isCalculado: viewModel.puntos[i].estaCalculado,
+                      ),
+                    ),
+                  const SizedBox(height: 20),
+                  if (viewModel.puntosGraficaEquipos.length >= 2)
+                    MyChart(
+                      spotsPatron: viewModel.puntosGraficaPatron,
+                      spotsEquipo: viewModel.puntosGraficaEquipos,
+                    )
+                  else
+                    const Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Text(
+                        "Introduce datos en al menos 2 filas para ver la gráfica",
+                        textAlign: TextAlign.center,
                       ),
                     ),
                 ],
