@@ -17,21 +17,30 @@ class _homeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text("Extra Pol"),
         backgroundColor: Colors.grey[300],
+        actions: [
+          IconButton(
+            onPressed: viewModel.limpiarDatos,
+            icon: Icon(Icons.delete_sweep),
+            tooltip: "borrar campos",
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            for (int i = 0; i < viewModel.puntos.length; i++)
-              Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: MyFieldGroup(
-                  c1: viewModel.puntos[i].patron,
-                  c2: viewModel.puntos[i].equipo,
-                  labelSuffix: " P${i + 1}",
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              for (int i = 0; i < viewModel.puntos.length; i++)
+                Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: MyFieldGroup(
+                    c1: viewModel.puntos[i].patron,
+                    c2: viewModel.puntos[i].equipo,
+                    labelSuffix: " P${i + 1}",
+                  ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

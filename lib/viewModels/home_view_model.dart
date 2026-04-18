@@ -90,6 +90,17 @@ class HomeViewModel extends ChangeNotifier {
     }
   }
 
+  //Reinicio de campos
+  void limpiarDatos() {
+    for (var punto in puntos) {
+      punto.patron.clear();
+      punto.equipo.clear();
+      punto.esManual = false;
+      punto.estaCalculado = false;
+    }
+    notifyListeners();
+  }
+
   @override
   void dispose() {
     for (var punto in puntos) {
