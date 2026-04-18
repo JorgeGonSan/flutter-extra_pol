@@ -1,4 +1,5 @@
 import 'package:extra_pol/models/fila_patron_equipo.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class HomeViewModel extends ChangeNotifier {
@@ -25,7 +26,7 @@ class HomeViewModel extends ChangeNotifier {
       punto.equipo.addListener(_onChanged);
     }
   }
-
+  //gestiona los cambios en las filas de puntos
   void _onChanged() {
     //Si esta calculando no hago nada mas
     if (_isupdating) {
@@ -102,6 +103,7 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  //Limpieza de los controller
   @override
   void dispose() {
     for (var punto in puntos) {
@@ -109,5 +111,24 @@ class HomeViewModel extends ChangeNotifier {
       punto.equipo.dispose();
     }
     super.dispose();
+  }
+
+  // obtiene una lista con los puntos (x,y) ordenados
+  List<FlSpot> get puntosGrafica {
+    List<FlSpot> spots = [];
+
+    for (var punto in puntos) {
+      //Intentamos de pasar a double el texto del campo
+      double? x = double.tryParse(punto.patron.text);
+      double? y = double.tryParse(punto.equipo.text);
+
+      //Si el punto es valido lo asignamos a la lista
+      if (x != null && y != null) {
+        spots.add(FlSpot(x, y));
+      }
+    }
+    // ordena la lista de menor a mayor
+    spots.sort((a, b) => a.x.compareTo(b.x));
+    return spots;
   }
 }
