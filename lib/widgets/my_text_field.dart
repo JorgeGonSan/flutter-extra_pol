@@ -4,12 +4,14 @@ class MyTextField extends StatelessWidget {
   final String myLabelText;
   final TextEditingController myController;
   final TextInputType myKeyboard;
+  final Color? myBackgroundColor;
 
   const MyTextField({
     super.key,
     required this.myLabelText,
     required this.myController,
     this.myKeyboard = TextInputType.number,
+    this.myBackgroundColor,
   });
 
   @override
@@ -18,6 +20,8 @@ class MyTextField extends StatelessWidget {
       controller: myController,
       keyboardType: myKeyboard,
       decoration: InputDecoration(
+        filled: true,
+        fillColor: myBackgroundColor,
         labelText: myLabelText,
         border: OutlineInputBorder(),
       ),

@@ -88,6 +88,7 @@ class HomeViewModel extends ChangeNotifier {
       puntos[1].estaCalculado = true;
       _isupdating = false;
     }
+    notifyListeners();
   }
 
   //Reinicio de campos

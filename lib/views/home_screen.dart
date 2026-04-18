@@ -25,23 +25,30 @@ class _homeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              for (int i = 0; i < viewModel.puntos.length; i++)
-                Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: MyFieldGroup(
-                    c1: viewModel.puntos[i].patron,
-                    c2: viewModel.puntos[i].equipo,
-                    labelSuffix: " P${i + 1}",
-                  ),
-                ),
-            ],
-          ),
-        ),
+      body: ListenableBuilder(
+        listenable: viewModel,
+        builder: (context, child) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  for (int i = 0; i < viewModel.puntos.length; i++)
+                    Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: MyFieldGroup(
+                        c1: viewModel.puntos[i].patron,
+                        c2: viewModel.puntos[i].equipo,
+                        labelSuffix: " P${i + 1}",
+                        isManual: viewModel.puntos[i].esManual,
+                        isCalculado: viewModel.puntos[i].estaCalculado,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
