@@ -10,7 +10,10 @@ class MyTextField extends StatelessWidget {
     super.key,
     required this.myLabelText,
     required this.myController,
-    this.myKeyboard = TextInputType.number,
+    this.myKeyboard = const TextInputType.numberWithOptions(
+      signed: true,
+      decimal: true,
+    ),
     this.myBackgroundColor,
   });
 

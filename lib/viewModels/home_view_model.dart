@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 class HomeViewModel extends ChangeNotifier {
   bool _isupdating = false;
-
   final List<FilaPatronEquipo> puntos = [
     FilaPatronEquipo(
       patron: TextEditingController(),
@@ -26,26 +25,12 @@ class HomeViewModel extends ChangeNotifier {
       punto.equipo.addListener(_onChanged);
     }
   }
-  //gestiona los cambios en las filas de puntos
+
+  //Gestiona los cambios en las filas de puntos
   void _onChanged() {
     //Si esta calculando no hago nada mas
     if (_isupdating) {
       return;
-    }
-    //Creamos un bool por fila para compraobar si esta la pareja vacia o no con el fin de bloquear o no.
-    bool f1 =
-        puntos[0].patron.text.isNotEmpty && puntos[0].equipo.text.isNotEmpty;
-    bool f2 =
-        puntos[1].patron.text.isNotEmpty && puntos[1].equipo.text.isNotEmpty;
-    bool f3 =
-        puntos[2].patron.text.isNotEmpty && puntos[2].equipo.text.isNotEmpty;
-
-    //Recorremos filas y si se cumple la condicion la marcamos como manual
-    for (var punto in puntos) {
-      if ((punto.patron.text.isNotEmpty || punto.equipo.text.isNotEmpty) &&
-          !punto.estaCalculado) {
-        punto.esManual = true;
-      }
     }
 
     //creamos variables nulables y la intentamos pasar a dobles(tryParse)
@@ -56,9 +41,26 @@ class HomeViewModel extends ChangeNotifier {
     double? e2 = double.tryParse(puntos[1].equipo.text);
     double? p3 = double.tryParse(puntos[2].patron.text);
     double? e3 = double.tryParse(puntos[2].equipo.text);
+
+    //Creamos un bool por fila para comprobar si ambos campos son numeros reales.
+    bool f1 = p1 != null && e1 != null;
+    bool f2 = p2 != null && e2 != null;
+    bool f3 = p3 != null && e3 != null;
+
+    //Recorremos filas y asigansmo estados a los campos
+    for (var punto in puntos) {
+      if (punto.patron.text.isEmpty && punto.equipo.text.isEmpty) {
+        punto.esManual = false;
+        punto.estaCalculado = false;
+      } else if (!punto.estaCalculado) {
+        punto.esManual = true;
+      }
+    }
+
+    _isupdating = true;
+
     //caso 1 (fila 1 y fila 2)
     if (f1 && f2 && !puntos[2].esManual) {
-      _isupdating = true;
       double diffP = p2! - p1!;
       double diffE = e2! - e1!;
       double p3Res = p2! + diffP;
@@ -66,10 +68,8 @@ class HomeViewModel extends ChangeNotifier {
       puntos[2].patron.text = p3Res.toStringAsFixed(2);
       puntos[2].equipo.text = e3Res.toStringAsFixed(2);
       puntos[2].estaCalculado = true;
-      _isupdating = false;
       //Caso 2 (fila 2 y fila 3)
     } else if (f2 && f3 && !puntos[0].esManual) {
-      _isupdating = true;
       double diffP = p3! - p2!;
       double diffE = e3! - e2!;
       double p1Res = p2! - diffP;
@@ -77,18 +77,23 @@ class HomeViewModel extends ChangeNotifier {
       puntos[0].patron.text = p1Res.toStringAsFixed(2);
       puntos[0].equipo.text = e1Res.toStringAsFixed(2);
       puntos[0].estaCalculado = true;
-      _isupdating = false;
       //Caso (fila 1 y fila 3)
     } else if (f1 && f3 && !puntos[1].esManual) {
-      _isupdating = true;
-
       double p2Res = (p1! + p3!) / 2;
       double e2Res = (e1! + e3!) / 2;
       puntos[1].patron.text = p2Res.toStringAsFixed(2);
       puntos[1].equipo.text = e2Res.toStringAsFixed(2);
       puntos[1].estaCalculado = true;
-      _isupdating = false;
+    } else {
+      for (var punto in puntos) {
+        if (punto.estaCalculado) {
+          punto.patron.clear();
+          punto.equipo.clear();
+          punto.estaCalculado = false;
+        }
+      }
     }
+    _isupdating = false;
     notifyListeners();
   }
 
